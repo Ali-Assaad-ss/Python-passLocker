@@ -1,0 +1,12 @@
+cryptography
+bcrypt
+clipboard
+pyotp
+pygetwindow
+tkinter
+base64
+os
+json
+sys
+string
+random
