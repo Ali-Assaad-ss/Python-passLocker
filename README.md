@@ -11,6 +11,8 @@ librairies for encryption:
   1.cryptography
   2.bcrypt
 
+features:
+save passwords,2fa otp,save credit cards,generate secure passwords, quick copy, multi user, change account info.
 
 ![LoginPage ](images/Capture.JPG)
 login
