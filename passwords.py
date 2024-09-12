@@ -13,8 +13,9 @@ CCSF = (r".\assets\frame5\\")
 
 
 def passwords_f(window, canvas, user, MP, Butto, menu_Button):
-    global back_image, passbar_img, searchbi, searchbi, searchbari, searchbci, searchbchi, so, searchb
+    global back_image, passbar_img, searchbi, searchbi, searchbari, searchbci, searchbchi, so, searchb, job
     so = False
+    job = None
 
     def eye1(accs, eye, index):
         passw = accs[index]["password"]
@@ -49,8 +50,18 @@ def passwords_f(window, canvas, user, MP, Butto, menu_Button):
         reset()
         popup_f(window, canvas, user, MP, type, Butto,
                 menu_Button, index, searchaccs=searchaccs)
+        
+
+
+    def debounce_search(event=None):
+        global job
+        if job is not None:
+            cont.after_cancel(job)
+        job = cont.after(400, search_passwords)
 
     def search_passwords(event=None):  # Accept an event argument
+        global job
+        job = None
         query = search_entry.get().lower()
 
         # Clear existing password entries from the canvas
@@ -62,11 +73,9 @@ def passwords_f(window, canvas, user, MP, Butto, menu_Button):
         index = 0
         data = decryptjson(user, MP)
         accs = data.get("accounts")
-        searchaccs = []
         if accs:
             for acc in accs:
                 if query in acc["website"].lower() or query in acc["username"].lower():
-                    searchaccs.append(acc)
 
                     passbar = cont.create_image(
                         306.0,
@@ -88,16 +97,16 @@ def passwords_f(window, canvas, user, MP, Butto, menu_Button):
                     passwo = cont.create_text(
                         366, i, text="************", fill="#7370F4", font=('Helvetica 9 bold'), anchor="center")
 
-                    eye = Butto(cont, 489, i, 9, 1, 1, 7, 7, 7, func=lambda passwo=passwo, index=index: eye1(searchaccs,
+                    eye = Butto(cont, 489, i, 9, 1, 1, 7, 7, 7, func=lambda passwo=passwo, index=index: eye1(accs,
                                                                                                              passwo, index), func2=lambda passwo=passwo: eye2(passwo))
 
                     copy = Butto(cont, 530, i, 10, 2,
-                                 func=lambda index=index: copypassword(searchaccs, index))
+                                 func=lambda index=index: copypassword(accs, index))
                     edit = Butto(cont, 575, i, 11, 3,
-                                 func=lambda index=index: popup("editpass", index, searchaccs=searchaccs))
+                                 func=lambda index=index: popup("editpass", index))
 
                     i += 55
-                    index += 1
+                index += 1
 
         cont.configure(scrollregion=cont.bbox("all"))
 
@@ -136,7 +145,7 @@ def passwords_f(window, canvas, user, MP, Butto, menu_Button):
 
             # Bind the search_passwords function to the KeyRelease event
             search_entry.bind(
-                "<KeyRelease>", lambda event=None: search_passwords())
+                "<KeyRelease>",debounce_search)
             search_entry.place(x=210, y=538)
             so = True
         else:
