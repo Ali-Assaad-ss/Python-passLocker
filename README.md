@@ -115,7 +115,11 @@ Please ensure your code follows PEP 8 guidelines and is thoroughly tested before
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this software as per the license terms.
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
+You are free to share, copy, and redistribute the material in any medium or format, under the following conditions:  
+- **Attribution**: You must give appropriate credit, provide a link to the license, and indicate if changes were made.  
+- **NonCommercial**: You may not use the material for commercial purposes.  
+Full details: https://creativecommons.org/licenses/by-nc/4.0/
 
 ---
 
